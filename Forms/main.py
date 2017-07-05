@@ -15,18 +15,37 @@
 # limitations under the License.
 #
 import webapp2
+import jinja2
+
+
+jinja_environment = jinja2.Environment(
+    loader=jinja2.FileSystemLoader("templates"))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        my_vars={"name": "CSSIer"}
+        template = jinja_environment.get_template('template.html')
+        dictionary = {'template_name': self.request.get('name')}
+        self.response.out.write(template.render(dictionary))
+        app = webapp2.WSGIApplication
+
 
 class PassHandler(webapp2.RequestHandler):
     def post(self):
         real_name = "malik"
         real_pass = "123abc"
-        username = self.request.get=("username")
-        password = self.request.get=("password")
+        username = self.request.get("username")
+        password = self.request.get("password")
         self.response.write(username + "  " + password)
+        if password == real_pass and username == real_name:
+            self.response.write
+
+            ("Login Successful")
+        else:
+            self.response.write("Password not recognized")
+
+
+
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
@@ -40,6 +59,8 @@ class FormHandler(webapp2.RequestHandler):
         self.response.write('Whats your favorite food from ' + Restaraunt)
         Radio=self.request.get('station')
         self.response.write('Do you like ' + Radio)
+
+
 
 
 app = webapp2.WSGIApplication([
