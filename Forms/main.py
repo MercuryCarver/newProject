@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pythonWha
 #
 # Copyright 2007 Google Inc.
 #
@@ -19,7 +19,21 @@ import webapp2
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
+class FormHandler(webapp2.RequestHandler):
+    def get(self):
+        Good=self.request.get('color')
+        self.response.write('Is this your favorite color ' + Good)
+        Cool=self.request.get('name')
+        self.response.write('Are you sure this is your name ' + Cool)
+        Secret=self.request.get('firstName')
+        self.response.write('Are you sure you entered correctly ' + Secret)
+        Restaraunt=self.request.get('oliveGarden')
+        self.response.write('Whats your favorite food from ' + Restaraunt)
+        Radio=self.request.get('station')
+        self.response.write('Do you like ' + Radio)
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/submission', FormHandler),
 ], debug=True)
