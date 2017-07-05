@@ -19,6 +19,15 @@ import webapp2
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
+
+class PassHandler(webapp2.RequestHandler):
+    def post(self):
+        real_name = "malik"
+        real_pass = "123abc"
+        username = self.request.get=("username")
+        password = self.request.get=("password")
+        self.response.write(username + "  " + password)
+
 class FormHandler(webapp2.RequestHandler):
     def get(self):
         Good=self.request.get('color')
@@ -36,4 +45,5 @@ class FormHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/submission', FormHandler),
+    ('/login', PassHandler)
 ], debug=True)
