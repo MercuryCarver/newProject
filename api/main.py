@@ -15,6 +15,9 @@ class MainHandler(webapp2.RequestHandler):
         gif_url = parsed_giphy_dictionary['data'][0]['images']['original']['url']
         self.response.write(gif_url)
 
+class SecondHandler(webapp2.RequestHandlers):
+    def get
+
 app = webapp2.WSGIApplication([
      ('/', MainHandler)
 ], debug=True)

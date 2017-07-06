@@ -9,7 +9,9 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+
+
+- url: /finalproject.*
   script: main.app
 
 libraries:
