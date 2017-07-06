@@ -39,8 +39,7 @@ class MainHandler(webapp2.RequestHandler):
         templates = jinja_environment.get_template('templateproject.html')
         self.response.write(templates.render(dictionary))
 
-class FormHandler(webapp2.RequestHandler):
-    def get(self):
+
 
 
 
