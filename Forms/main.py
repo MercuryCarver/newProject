@@ -29,6 +29,21 @@ class MainHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(dictionary))
         app = webapp2.WSGIApplication
 
+class MainHandler(webapp2.RequestHandler):
+    def get(self):
+        guestbook_name = self.request.get('madlib')
+        #dictionary= {'Adjective, Noun, Name, Verb, Number, Color '}
+        dictionary= {'noun': 'car'}
+        jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+        app = webapp2.WSGIApplication
+        templates = jinja_environment.get_template('templateproject.html')
+        self.response.write(templates.render(dictionary))
+
+class FormHandler(webapp2.RequestHandler):
+    def get(self):
+
+
+
 
 class PassHandler(webapp2.RequestHandler):
     def post(self):
