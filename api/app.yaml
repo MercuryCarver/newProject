@@ -10,8 +10,7 @@ handlers:
   upload: favicon\.ico
 
 
-
-- url: /finalproject.*
+- url: .*
   script: main.app
 
 libraries:
