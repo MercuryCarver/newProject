@@ -1,4 +1,4 @@
-application: forms
+application: youtubeapi
 version: 1
 runtime: python27
 api_version: 1
@@ -9,16 +9,12 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: /static/(.*)
-  static_files: static/\1
-  upload: static/
-
-- url: /everything.*
-  script: api.app
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
 
 - url: .*
   script: main.app
-
 
 libraries:
 - name: webapp2

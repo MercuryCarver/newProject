@@ -6,7 +6,7 @@ import urllib
 import jinja2
 
 jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader("."))
+   loader=jinja2.FileSystemLoader("."))
 
 
 class MainHandler(webapp2.RequestHandler):
