@@ -46,8 +46,6 @@ class NewHandler(webapp2.RequestHandler):
         base_url = "https://accounts.spotify.com/authorize/?"
         url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
         request_url = base_url + urllib.urlencode(url_params)
-        client_id = 'CLIENT_ID'; "ab201d1acc304ba28610b4cebc2dda42"
-        client_secret = 'CLIENT_SECRET'; "4d06f94d19f64670b55f5f19619670ef"
         redirect_uri = 'REDIRECT_URI'; "http://localhost:12080/leek/"
         scopes = 'user-read-private user-read-email'
 
@@ -61,6 +59,25 @@ class AnotherHandler(webapp2.RequestHandler):
 
 
         self.response.write("does it work")
+        code=self.request.get("code")
+        base_url = "https://accounts.spotify.com/api/token"
+        client_id =  "ab201d1acc304ba28610b4cebc2dda42"
+        client_secret = "4d06f94d19f64670b55f5f19619670ef"
+        url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://localhost:12080/leek/", 'client_id':client_id, 'client_secret':client_secret}
+        data = urllib.urlencode(url_params)
+        response = urllib.urlopen(base_url, data).read()
+        parsed_dictionary = json.loads(response)
+        token_type = parsed_dictionary['token_type']
+        access = parsed_dictionary['access_token']
+        expires = parsed_dictionary['expires_in']
+        refresh = parsed_dictionary['refresh_token']
+        bases_url = "https://api.spotify.com/v1/browse/categories"
+        #header_dictionary = {'authorization': access, ''}
+        #request = urllib2.request(bases_url, data, )
+
+
+
+        #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
 #class SecondHandler(webapp2.RequestHandlers):
     #def get
