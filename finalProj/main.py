@@ -37,7 +37,7 @@ class MainHandler(webapp2.RequestHandler):
         #gif_url = parsed_giphy_dictionary['data'][0]['images']['original']['url']
         # app = webapp2.WSGIApplication
         #
-        # self.response.out.write(template.render(url_params))
+        self.response.out.write(template.render(url_params))
         # self.response.write(gif_url)
 
 class NewHandler(webapp2.RequestHandler):
