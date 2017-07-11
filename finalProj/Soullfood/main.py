@@ -15,30 +15,11 @@
 # limitations under the License.
 #
 import webapp2
-import jinja2
-import os
-
-jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
 
-class NextHandler(webapp2.RequestHandler):
-    def get(self):
-        guestbook_name = self.request.get('madlib')
-        #dictionary= {'Adjective, Noun, Name, Verb, Number, Color '}
-        app = webapp2.WSGIApplication
-        templates = jinja_environment.get_template('homepage.html')
-        mg3= self.request.get("Mood")
-        mg = self.request.get("Genre")
-        mg2= self.request.get("Weather")
-        dictionary= {"mg3":mg2 , "mg": mg3, "mg2": mg}
-        self.response.write(templates.render(dictionary))
-
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
-    ('/page', NextHandler)
 ], debug=True)
