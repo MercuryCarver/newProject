@@ -63,8 +63,13 @@ class AnotherHandler(webapp2.RequestHandler):
         data = urllib.urlencode(url_params)
         response = urllib.urlopen(base_url, data).read()
         parsed_dictionary = json.loads(response)
-        #urls = parsed_dictionary['access_token']
-        self.response.write(parsed_dictionary)
+        token_type = parsed_dictionary['token_type']
+        access = parsed_dictionary['access_token']
+        expires = parsed_dictionary['expires_in']
+        refresh = parsed_dictionary['refresh_token']
+
+
+        #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
 #class SecondHandler(webapp2.RequestHandlers):
     #def get
