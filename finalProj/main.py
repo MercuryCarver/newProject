@@ -46,8 +46,6 @@ class NewHandler(webapp2.RequestHandler):
         base_url = "https://accounts.spotify.com/authorize/?"
         url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
         request_url = base_url + urllib.urlencode(url_params)
-        client_id = 'CLIENT_ID'; "ab201d1acc304ba28610b4cebc2dda42"
-        client_secret = 'CLIENT_SECRET'; "4d06f94d19f64670b55f5f19619670ef"
         redirect_uri = 'REDIRECT_URI'; "http://localhost:12080/leek/"
         scopes = 'user-read-private user-read-email'
 
@@ -57,6 +55,16 @@ class NewHandler(webapp2.RequestHandler):
 class AnotherHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("does it work")
+        code=self.request.get("code")
+        base_url = "https://accounts.spotify.com/api/token"
+        client_id =  "ab201d1acc304ba28610b4cebc2dda42"
+        client_secret = "4d06f94d19f64670b55f5f19619670ef"
+        url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://localhost:12080/leek/", 'client_id':client_id, 'client_secret':client_secret}
+        data = urllib.urlencode(url_params)
+        response = urllib.urlopen(base_url, data).read()
+        parsed_dictionary = json.loads(response)
+        #urls = parsed_dictionary['access_token']
+        self.response.write(parsed_dictionary)
 
 #class SecondHandler(webapp2.RequestHandlers):
     #def get
