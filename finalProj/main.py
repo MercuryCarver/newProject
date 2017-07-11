@@ -15,11 +15,50 @@
 # limitations under the License.
 #
 import webapp2
+import json
+import random
+import urllib2
+import urllib
+import jinja2
+
+jinja_environment = jinja2.Environment(
+    loader=jinja2.FileSystemLoader("."))
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        template = jinja_environment.get_template('soullfoodstartuppage.html')
+        term= self.request.get("term")
+        url_params = {'q': term, 'api_key': 'dc6zaTOxFJmzC', 'limit': 10}
+        #giphy_response = urllib2.urlopen(
+            #"http://api.giphy.com/v1/gifs/search?q=+ryan+gosling&api_key=dc6zaTOxFJmzC&limit=10")
+        #giphy_response = urllib.urlopen(base_url + urllib.urlencode(url_params)).read()
+        #parsed_giphy_dictionary = json.loads(giphy_response)
+        #gif_url = parsed_giphy_dictionary['data'][0]['images']['original']['url']
+        # app = webapp2.WSGIApplication
+        #
+        # self.response.out.write(template.render(url_params))
+        # self.response.write(gif_url)
+
+class NewHandler(webapp2.RequestHandler):
+    def get(self):
+        #self.response.write("different")
+        base_url = "https://accounts.spotify.com/authorize/?"
+        url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
+        request_url = base_url + urllib.urlencode(url_params)
+
+        self.redirect(request_url)
+
+
+class AnotherHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write("does it work")
+
+#class SecondHandler(webapp2.RequestHandlers):
+    #def get
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+     ('/', MainHandler),
+     ('/something', NewHandler),
+     ('/leek/', AnotherHandler),
 ], debug=True)
