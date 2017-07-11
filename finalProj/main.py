@@ -54,6 +54,10 @@ class NewHandler(webapp2.RequestHandler):
 
 class AnotherHandler(webapp2.RequestHandler):
     def get(self):
+        template = jinja_environment.get_template('soullfoodstartuppage.html')
+        self.response.out.write(template.render())
+
+
         self.response.write("does it work")
         code=self.request.get("code")
         base_url = "https://accounts.spotify.com/api/token"
