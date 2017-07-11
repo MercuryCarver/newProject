@@ -46,6 +46,10 @@ class NewHandler(webapp2.RequestHandler):
         base_url = "https://accounts.spotify.com/authorize/?"
         url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
         request_url = base_url + urllib.urlencode(url_params)
+        client_id = 'CLIENT_ID'; "ab201d1acc304ba28610b4cebc2dda42"
+        client_secret = 'CLIENT_SECRET'; "4d06f94d19f64670b55f5f19619670ef"
+        redirect_uri = 'REDIRECT_URI'; "http://localhost:12080/leek/"
+        scopes = 'user-read-private user-read-email'
 
         self.redirect(request_url)
 
