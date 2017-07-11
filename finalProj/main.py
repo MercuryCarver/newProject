@@ -37,7 +37,7 @@ class MainHandler(webapp2.RequestHandler):
         #gif_url = parsed_giphy_dictionary['data'][0]['images']['original']['url']
         # app = webapp2.WSGIApplication
         #
-        self.response.out.write(template.render(url_params))
+        # self.response.out.write(template.render(url_params))
         # self.response.write(gif_url)
 
 class NewHandler(webapp2.RequestHandler):
@@ -67,6 +67,10 @@ class AnotherHandler(webapp2.RequestHandler):
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
+        bases_url = "https://api.spotify.com/v1/browse/categories"
+        #header_dictionary = {'authorization': access, ''}
+        #request = urllib2.request(bases_url, data, )
+
 
 
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
