@@ -26,6 +26,7 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
 
+class NextHandler(webapp2.RequestHandler):
     def get(self):
         guestbook_name = self.request.get('madlib')
         #dictionary= {'Adjective, Noun, Name, Verb, Number, Color '}
@@ -39,4 +40,5 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
+    ('/page', NextHandler)
 ], debug=True)
