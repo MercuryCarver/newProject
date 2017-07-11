@@ -61,15 +61,18 @@ class AnotherHandler(webapp2.RequestHandler):
         client_secret = "4d06f94d19f64670b55f5f19619670ef"
         url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://localhost:12080/leek/", 'client_id':client_id, 'client_secret':client_secret}
         data = urllib.urlencode(url_params)
-        response = urllib.urlopen(base_url, data).read()
+        response = urllib2.urlopen(base_url, data).read()
         parsed_dictionary = json.loads(response)
         token_type = parsed_dictionary['token_type']
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
         bases_url = "https://api.spotify.com/v1/browse/categories"
-        #header_dictionary = {'authorization': access, ''}
-        #request = urllib2.request(bases_url, data, )
+        header_dictionary = {'Authorization': access}
+        request = urllib2.Request(bases_url)#, headers = header_dictionary)
+        request.add_header('Authorization', "Bearer " + access)
+        response = urllib2.urlopen(request).read()
+        self.response.write(response)
 
 
 
@@ -79,7 +82,7 @@ class AnotherHandler(webapp2.RequestHandler):
     #def get
 
 app = webapp2.WSGIApplication([
-     ('/', MainHandler),
-     ('/something', NewHandler),
+     #('/', MainHandler),
+     ('/', NewHandler),
      ('/leek/', AnotherHandler),
 ], debug=True)
