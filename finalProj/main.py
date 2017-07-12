@@ -20,6 +20,7 @@ import random
 import urllib2
 import urllib
 import jinja2
+import hookingin
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader("."))
@@ -46,8 +47,6 @@ class NewHandler(webapp2.RequestHandler):
         base_url = "https://accounts.spotify.com/authorize/?"
         url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
         request_url = base_url + urllib.urlencode(url_params)
-        redirect_uri = 'REDIRECT_URI'; "http://localhost:12080/leek/"
-        scopes = 'user-read-private user-read-email'
 
         self.redirect(request_url)
 
@@ -71,13 +70,19 @@ class AnotherHandler(webapp2.RequestHandler):
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
-        bases_url = "https://api.spotify.com/v1/browse/categories"
-        header_dictionary = {'Authorization': access}
-        request = urllib2.Request(bases_url)#, headers = header_dictionary)
-        request.add_header('Authorization', "Bearer " + access)
-        response = urllib2.urlopen(request).read()
-        self.response.write(response)
-
+        query_dictionary = { 'q': "Chance the Rapper", 'type': "artist"}
+        calling = hookingin.callspotify("search", access, query_dictionary)
+        person_id = calling['artists']['items'][0]['id']
+        #self.response.write(person_id)
+        # bases_url = "https://api.spotify.com/v1/recommendations"
+        # header_dictionary = {'Authorization': access}
+        # request = urllib2.Request(bases_url)#, headers = header_dictionary)
+        # request.add_header('Authorization', "Bearer " + access)
+        # response = urllib2.urlopen(request).read()
+        # self.response.write(response)
+        query_dictionary = { 'seed_artists': person_id}
+        calling = hookingin.callspotify("recommendations", access, query_dictionary)
+        person_id = calling['tracks']['popularity'][0]['artists']
 
 
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
