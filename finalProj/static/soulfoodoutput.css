@@ -1,0 +1,19 @@
+
+p {
+font-size: 250%;
+  position: absolute;
+  width: 900px;
+}
+
+form {
+font-size: 200%;
+  position: absolute;
+  width: 900px;
+}
+
+form {
+font-size: 100%;
+   position: relative;
+   width: 900px;
+
+}
