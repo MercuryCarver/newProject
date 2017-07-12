@@ -95,11 +95,12 @@ class AnotherHandler(webapp2.RequestHandler):
         calling = hookingin.callspotify("recommendations", access, query_dictionary)
         track_id = calling['tracks'][0]['id']
         artist_name = calling['tracks'][0]['artists'][0]['name']
-        album_id = calling['tracks'][0]['artists'][0]['uri']['disc_number'][0]
         self.response.write(album_id)
         # self.response.write(track_id)
         # query_dictionary = { 'seed_genres': }
         # self.response.out.write(template.render())
+
+        query_dictionary = {'Authorization': access, }
 
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
