@@ -21,6 +21,7 @@ import urllib2
 import urllib
 import jinja2
 import hookingin
+# import model
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader("."))
@@ -99,8 +100,27 @@ class AnotherHandler(webapp2.RequestHandler):
 #class SecondHandler(webapp2.RequestHandlers):
     #def get
 
+# class SongHandler(webapp2.RequestHandler):
+#     def post(self):
+#         song1 = model.Song()
+#         song1.name = self.request.get("name")
+#         song1.name = self.request.get("artist")
+#         song1.duration = int(self.request.get("duration"))
+#         song1.new = bool(self.request.get("new"))
+#         song1.put(
+#         self.response.write("Put the song")
+#         )
+# class GetHandler(webapp2.RequestHandler):
+#     def get(self):
+#         name = self.request.get("name")
+#         query = model.Song.query(model.Song.name == name)
+#         one_song = query.get()
+
+
 app = webapp2.WSGIApplication([
      #('/', MainHandler),
      ('/', NewHandler),
      ('/leek/', AnotherHandler),
+    #  ('/storesong', SongHandler),
+    #   ('/getsong', GetHandler)
 ], debug=True)
