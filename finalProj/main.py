@@ -42,6 +42,12 @@ class MainHandler(webapp2.RequestHandler):
         # self.response.out.write(template.render(url_params))
         # self.response.write(gif_url)
 
+class JarensHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect("static/jarenssoullfoodstartup.html")
+
+
+
 class NewHandler(webapp2.RequestHandler):
     def get(self):
         #self.response.write("different")
@@ -119,7 +125,8 @@ class AnotherHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
      #('/', MainHandler),
-     ('/', NewHandler),
+     ('/', JarensHandler),
+     ('/spotify',NewHandler),
      ('/leek/', AnotherHandler),
     #  ('/storesong', SongHandler),
     #   ('/getsong', GetHandler)
