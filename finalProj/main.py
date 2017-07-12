@@ -54,10 +54,8 @@ class NewHandler(webapp2.RequestHandler):
 class AnotherHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('soullfoodstartuppage.html')
-        self.response.out.write(template.render())
 
-
-        self.response.write("does it work")
+        #logging in the app
         code=self.request.get("code")
         base_url = "https://accounts.spotify.com/api/token"
         client_id =  "ab201d1acc304ba28610b4cebc2dda42"
@@ -65,14 +63,18 @@ class AnotherHandler(webapp2.RequestHandler):
         url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://localhost:12080/leek/", 'client_id':client_id, 'client_secret':client_secret}
         data = urllib.urlencode(url_params)
         response = urllib2.urlopen(base_url, data).read()
+
+        #loading and isolating
         parsed_dictionary = json.loads(response)
         token_type = parsed_dictionary['token_type']
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
+        #Getting artist id
         query_dictionary = { 'q': "Chance the Rapper", 'type': "artist"}
         calling = hookingin.callspotify("search", access, query_dictionary)
         person_id = calling['artists']['items'][0]['id']
+
         #self.response.write(person_id)
         # bases_url = "https://api.spotify.com/v1/recommendations"
         # header_dictionary = {'Authorization': access}
@@ -80,10 +82,17 @@ class AnotherHandler(webapp2.RequestHandler):
         # request.add_header('Authorization', "Bearer " + access)
         # response = urllib2.urlopen(request).read()
         # self.response.write(response)
+
+        #giving recommendations for other artists
         query_dictionary = { 'seed_artists': person_id}
         calling = hookingin.callspotify("recommendations", access, query_dictionary)
-        person_id = calling['tracks']['popularity'][0]['artists']
-
+        track_id = calling['tracks'][0]['id']
+        artist_name = calling['tracks'][0]['artists'][0]['name']
+        album_id = calling['tracks'][0]['artists'][0]['uri']['disc_number'][0]
+        self.response.write(album_id)
+        # self.response.write(track_id)
+        # query_dictionary = { 'seed_genres': }
+        # self.response.out.write(template.render())
 
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
