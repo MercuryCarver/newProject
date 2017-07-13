@@ -21,6 +21,8 @@ import urllib2
 import urllib
 import jinja2
 import hookingin
+import logging
+# import model
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader("."))
@@ -41,11 +43,17 @@ class MainHandler(webapp2.RequestHandler):
         # self.response.out.write(template.render(url_params))
         # self.response.write(gif_url)
 
+class JarensHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect("static/jarenssoullfoodstartup.html")
+
+
+
 class NewHandler(webapp2.RequestHandler):
     def get(self):
         #self.response.write("different")
         base_url = "https://accounts.spotify.com/authorize/?"
-        url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://localhost:12080/leek/"}
+        url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://" +  self.request.host + "/leek/"}
         request_url = base_url + urllib.urlencode(url_params)
 
         self.redirect(request_url)
@@ -60,8 +68,10 @@ class AnotherHandler(webapp2.RequestHandler):
         base_url = "https://accounts.spotify.com/api/token"
         client_id =  "ab201d1acc304ba28610b4cebc2dda42"
         client_secret = "4d06f94d19f64670b55f5f19619670ef"
-        url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://localhost:12080/leek/", 'client_id':client_id, 'client_secret':client_secret}
+        url_params = {'grant_type': "authorization_code", 'code': code, 'redirect_uri': "http://" + self.request.host + "/leek/", 'client_id':client_id, 'client_secret':client_secret}
+        logging.info(url_params)
         data = urllib.urlencode(url_params)
+        logging.info(data)
         response = urllib2.urlopen(base_url, data).read()
 
         #loading and isolating
@@ -86,21 +96,48 @@ class AnotherHandler(webapp2.RequestHandler):
         #giving recommendations for other artists
         query_dictionary = { 'seed_artists': person_id}
         calling = hookingin.callspotify("recommendations", access, query_dictionary)
-        track_id = calling['tracks'][0]['id']
-        artist_name = calling['tracks'][0]['artists'][0]['name']
-        album_id = calling['tracks'][0]['artists'][0]['uri']['disc_number'][0]
-        self.response.write(album_id)
+        track_id = calling['tracks'][1]['id']
+        artist_name = calling['tracks'][1]['artists'][0]['name']
+        self.response.write(artist_name)# self.response.write(album_id)
         # self.response.write(track_id)
-        # query_dictionary = { 'seed_genres': }
-        # self.response.out.write(template.render())
 
+        # query_dictionary = { 'seed_genres': }
+
+        query_dictionary = {}
+        calling = hookingin.callspotify("tracks/" + track_id, access, query_dictionary)
+        track_name = calling['name']
+        self.response.write(track_name)
+
+        templates = jinja_environment.get_template('static/soullfoodtemplate.html')
+        dictionary = {'artist_name': artist_name, 'track_name': track_name}
+        self.response.out.write(templates.render(dictionary))
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
 #class SecondHandler(webapp2.RequestHandlers):
     #def get
 
+# class SongHandler(webapp2.RequestHandler):
+#     def post(self):
+#         song1 = model.Song()
+#         song1.name = self.request.get("name")
+#         song1.name = self.request.get("artist")
+#         song1.duration = int(self.request.get("duration"))
+#         song1.new = bool(self.request.get("new"))
+#         song1.put(
+#         self.response.write("Put the song")
+#         )
+# class GetHandler(webapp2.RequestHandler):
+#     def get(self):
+#         name = self.request.get("name")
+#         query = model.Song.query(model.Song.name == name)
+#         one_song = query.get()
+
+
 app = webapp2.WSGIApplication([
      #('/', MainHandler),
-     ('/', NewHandler),
+     ('/', JarensHandler),
+     ('/spotify',NewHandler),
      ('/leek/', AnotherHandler),
+    #  ('/storesong', SongHandler),
+    #   ('/getsong', GetHandler)
 ], debug=True)

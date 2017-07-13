@@ -1,0 +1,27 @@
+
+  .picture {
+   position: relative;
+   width: 900px;
+  }
+  .picture2 {
+   position: absolute;
+   left: 860px;
+   top: 915px;
+  }
+  body {
+  background-color: brown;
+
+}
+ p {
+ font-size: 250%;
+   position: absolute;
+   width: 900px;
+
+ font-size: 250%;
+     position: absolute;
+     width: 900px;
+
+ font-size: 200%;
+     position: absolute;
+     width: 900px;
+}
