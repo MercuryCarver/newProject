@@ -100,13 +100,17 @@ class AnotherHandler(webapp2.RequestHandler):
         artist_name = calling['tracks'][1]['artists'][0]['name']
         self.response.write(artist_name)# self.response.write(album_id)
         # self.response.write(track_id)
+
         # query_dictionary = { 'seed_genres': }
-        # self.response.out.write(template.render())
 
         query_dictionary = {}
         calling = hookingin.callspotify("tracks/" + track_id, access, query_dictionary)
         track_name = calling['name']
         self.response.write(track_name)
+
+        templates = jinja_environment.get_template('static/soullfoodtemplate.html')
+        dictionary = {'artist_name': artist_name, 'track_name': track_name}
+        self.response.out.write(templates.render(dictionary))
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
 #class SecondHandler(webapp2.RequestHandlers):
