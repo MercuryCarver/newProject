@@ -53,7 +53,12 @@ class NewHandler(webapp2.RequestHandler):
     def get(self):
         #self.response.write("different")
         base_url = "https://accounts.spotify.com/authorize/?"
-        url_params = {'client_id': "ab201d1acc304ba28610b4cebc2dda42", 'response_type': "code", 'redirect_uri' : "http://" +  self.request.host + "/leek/"}
+        url_params = {
+            'client_id': "ab201d1acc304ba28610b4cebc2dda42",
+            'response_type': "code",
+            'redirect_uri' : "http://" +  self.request.host + "/leek/",
+            'state': self.request.get("mood")
+        }
         request_url = base_url + urllib.urlencode(url_params)
 
         self.redirect(request_url)
@@ -74,14 +79,23 @@ class AnotherHandler(webapp2.RequestHandler):
         logging.info(data)
         response = urllib2.urlopen(base_url, data).read()
 
+        dictionary = {
+        'Livid': "XXXtentacion"
+        'Chill': "Kendrick Lamar"
+        'Cheerful': "Chance the Rapper",
+        'Gloomy': "Tyler the Creator",
+        'Trappy': "Schoolboy Q",
+        'Sad': "Drake",
+        'Feeling Frisky': "Trey Songz"}
         #loading and isolating
         parsed_dictionary = json.loads(response)
         token_type = parsed_dictionary['token_type']
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
+        mood = parsed_dictionary['state']
         #Getting artist id
-        query_dictionary = { 'q': "Chance the Rapper", 'type': "artist"}
+        query_dictionary = { 'q': dictionary[mood], 'type': "artist"}
         calling = hookingin.callspotify("search", access, query_dictionary)
         person_id = calling['artists']['items'][0]['id']
 
@@ -93,13 +107,15 @@ class AnotherHandler(webapp2.RequestHandler):
         # response = urllib2.urlopen(request).read()
         # self.response.write(response)
 
+
+
         #giving recommendations for other artists
         query_dictionary = { 'seed_artists': person_id}
         calling = hookingin.callspotify("recommendations", access, query_dictionary)
         track_id = calling['tracks'][1]['id']
         artist_name = calling['tracks'][1]['artists'][0]['name']
-        self.response.write(artist_name)# self.response.write(album_id)
-        # self.response.write(track_id)
+        ## self.response.write(album_id)
+        self.response.write(artist_name)
 
         # query_dictionary = { 'seed_genres': }
 
@@ -108,9 +124,13 @@ class AnotherHandler(webapp2.RequestHandler):
         track_name = calling['name']
         self.response.write(track_name)
 
+        youtube = hookingin.callyoutube(artist_name + track_name)
+        youtube_id = youtube['items'][0]['id']["videoId"]
+
         templates = jinja_environment.get_template('static/soullfoodtemplate.html')
-        dictionary = {'artist_name': artist_name, 'track_name': track_name}
+        dictionary = {'artist_name': artist_name, 'track_name': track_name, 'youtube_id': youtube_id}
         self.response.out.write(templates.render(dictionary))
+
         #{u'token_type': u'Bearer', u'refresh_token': u'AQDIxy6yViN0CPQkamvE1NxqMUotUUD_CuwOMq4rEUD2IDpdca3j1rDb-xHHQ2-Sk9J4gnir1iFQfwLVRFWaWagS7Z22Dy_WX9LMygpsz9O2CInVwo9v0iQcMKN30VOH3ks', u'expires_in': 3600, u'access_token': u'BQDxbgvLYoRmhviggcmYZHeoaRuyz9umYiNeF4bDXWMtIY_WlOz4wLpH5fRwXvZjZPf0QRdbQEdNWyhJEzxG96TCvBSX0HIP50CVJg9XGAWO21z4GgltmLe0D4C8wwSFSznSpqWKR-dLPtlr_vA'}
 
 #class SecondHandler(webapp2.RequestHandlers):
