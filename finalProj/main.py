@@ -25,7 +25,7 @@ import logging
 # import model
 
 jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader("."))
+    loader=jinja2.FileSystemLoader("template"))
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -60,7 +60,6 @@ class NewHandler(webapp2.RequestHandler):
             'state': self.request.get("mood")
         }
         request_url = base_url + urllib.urlencode(url_params)
-
         self.redirect(request_url)
 
 
@@ -70,6 +69,7 @@ class AnotherHandler(webapp2.RequestHandler):
 
         #logging in the app
         code=self.request.get("code")
+        mood = self.request.get("state")
         base_url = "https://accounts.spotify.com/api/token"
         client_id =  "ab201d1acc304ba28610b4cebc2dda42"
         client_secret = "4d06f94d19f64670b55f5f19619670ef"
@@ -78,24 +78,26 @@ class AnotherHandler(webapp2.RequestHandler):
         data = urllib.urlencode(url_params)
         logging.info(data)
         response = urllib2.urlopen(base_url, data).read()
-
+        #elf.response.write(response)
         dictionary = {
-        'Livid': "XXXtentacion"
-        'Chill': "Kendrick Lamar"
-        'Cheerful': "Chance the Rapper",
-        'Gloomy': "Tyler the Creator",
-        'Trappy': "Schoolboy Q",
-        'Sad': "Drake",
-        'Feeling Frisky': "Trey Songz"}
+        'Livid': ["Three Doors Down", "XXXtentacion", "Hopsin", "Foo Fighters"],
+        'Chill': ["Kendrick Lamar", "Isaiah Rashad", "Joey BadA$$", "NAV", "Post Malone"],
+        'Cheerful':["Chance the Rapper", "Taylor Swift", "Pharrel", "Meghan Trainer"],
+        'Gloomy': ["Tyler the Creator", "A Boogie wit da Hoodie", "Earl Sweatshirt", "PnB Rock"],
+        'Trappy': ["Schoolboy Q", "Cousin Stizz", "G Herbo", "Lil Herbo", "Money Man", "Young Thug"],
+        'Sad': ["Drake", "Adele", "Tory Lanez", "Coldplay", "PARTYNEXTDOOR"],
+        'Feeling+Frisky': ["Trey Songz", "Nicki Minaj", "Rihanna", "SZA", "Bryson Tiller"]
+        }
         #loading and isolating
         parsed_dictionary = json.loads(response)
         token_type = parsed_dictionary['token_type']
         access = parsed_dictionary['access_token']
         expires = parsed_dictionary['expires_in']
         refresh = parsed_dictionary['refresh_token']
-        mood = parsed_dictionary['state']
         #Getting artist id
-        query_dictionary = { 'q': dictionary[mood], 'type': "artist"}
+        shuffle= random.Random()
+        seed= dictionary[mood][shuffle.randint(0, len(dictionary[mood])- 1)]
+        query_dictionary = { 'q': seed, 'type': "artist"}
         calling = hookingin.callspotify("search", access, query_dictionary)
         person_id = calling['artists']['items'][0]['id']
 
@@ -127,7 +129,7 @@ class AnotherHandler(webapp2.RequestHandler):
         youtube = hookingin.callyoutube(artist_name + track_name)
         youtube_id = youtube['items'][0]['id']["videoId"]
 
-        templates = jinja_environment.get_template('static/soullfoodtemplate.html')
+        templates = jinja_environment.get_template('soullfoodtemplate.html')
         dictionary = {'artist_name': artist_name, 'track_name': track_name, 'youtube_id': youtube_id}
         self.response.out.write(templates.render(dictionary))
 
