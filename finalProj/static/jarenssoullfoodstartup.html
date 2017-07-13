@@ -4,13 +4,26 @@
     <link rel="stylesheet" href="soulfoodoutput.css">
   </head>
   <body>
+
     <h1>Food for the Soul</h1>
     <form action="/action_page">
-      <p> Mood <input type="text" name="Mood"/>
-          Weather <input type="text" name="Weather"/>
-         Genre <input type="text" name="Genre"/>
-         Explicit Content <input type="radio" name="station"/></p>
+         <table>
+           <tr>
+             <th> Mood </th>
+             <th> Weather </th>
+             <th> Genre </th>
+             <th> Explicit Content </th>
+           </tr>
+
+        <tr>
+          <td><input type="text" name="Mood"/></td>
+          <td><input type="text" name="Weather"/></td>
+          <td><input type="text" name="Genre"/></td>
+          <td><input type="radio" name="station"/></td>
+        </tr>
+
          <button type="button">Submit</button>  <br><br><br>
+       </table> <br><br>
             <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
             <div id="player"></div>
 
@@ -92,9 +105,12 @@
       left: 700px;
      }
      body {
-     background-color: brown;
+     background: brown;
 
    }
+  th {
+    height: 50px;
+  }
     </style>
   </body>
 </html>
