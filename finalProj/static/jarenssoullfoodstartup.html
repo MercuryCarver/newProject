@@ -4,8 +4,9 @@
     <link rel="stylesheet" href="soulfoodoutput.css">
   </head>
   <body>
+
     <h1>Food for the Soul</h1>
-    <img src="Picture2.png" alt="soull">
+    <img src="Picture2.png" height="430"width"430" alt="soull">
 
 
     <form action="/spotify">
@@ -13,7 +14,7 @@
       <head>
       <style>
       .dropbtn {
-          background-color: #4CAF50;
+          background-color: black;
           color: white;
           padding: 16px;
           font-size: 16px;
@@ -49,39 +50,99 @@
       }
 
       .dropdown:hover .dropbtn {
-          background-color: #3e8e41;
+          background-color: red;
       }
+      body {
+    background-color: black;
+}
+      body {
+    color: red;
+}
+
+      h1 {
+color: white;
+}
+
+      p.ex {
+color: white;
+}
       </style>
       </head>
       <body>
 
-      <h2>Dropdown Menu</h2>
+
 
 
       <div class="dropdown">
-        <button class="dropbtn">Weather</button>
+        <input type="submit" class="dropbtn" value="Excited" name = "mood">
         <div class="dropdown-content">
-          <a href="#">Cold</a>
-          <a href="https://www.youtube.com/watch?v=vxa-RHeOc0w">Hot</a>
-          <a href="#">Muggy</a>
         </div>
       </div>
 
-      Explicit Content <input type="radio" name="station"/><br>
-      <br><input type="submit" value="Submit"><br>
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Livid" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Gloomy" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Trappy" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Cheerful" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Heated" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type ="submit" class="dropbtn" value="Sad" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input  type ="submit" class="dropbtn" value="Happy" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <input type = "submit"  class="dropbtn" value="Feeling Frisky" name = "mood">
+        <div class="dropdown-content">
+        </div>
+      </div>
+
+
+      <h1>Explicit Content <label class="switch">
+<input type="checkbox">
+<span class="slider round"></span>
+</label>
+
+
           <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
           <br><div id="player"></div><br>
     <form action="/action_page">
-      <p> Mood <input type="text" name="Mood"/>
-          Weather <input type="text" name="Weather"/>
-         Genre <input type="text" name="Genre"/>
-         Explicit Content <input type="radio" name="station"/></p>
-         <button type="button">Submit</button>  <br><br><br>
-            <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+
+
             <div id="player"></div>
 
 
-
+          <h1><font color="#856659">Suggested Song</font><h1>
           <script>
             // 2. This code loads the IFrame Player API code asynchronously.
             var tag = document.createElement('script');
@@ -95,8 +156,8 @@
             var player;
             function onYouTubeIframeAPIReady() {
               player = new YT.Player('player', {
-                height: '240',
-                width: '240',
+                height: '500',
+                width: '700',
                 videoId: 'wFspktAAziU',
                 events: {
                   'onReady': onPlayerReady,
