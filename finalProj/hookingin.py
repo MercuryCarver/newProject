@@ -11,3 +11,12 @@ def callspotify(endpoint, access_token, query_argument):
     response = urllib2.urlopen(request).read()
     dictionary = json.loads(response)
     return dictionary
+
+def callyoutube(query):
+    bases_url = "https://www.googleapis.com/youtube/v3/search" + "?"
+    query_dictionary = { 'q': query, 'key':"AIzaSyAtPFVJwmWolpn75QI3g0ZeNI2er0r2_Io", 'part':"snippet", "maxResults":1}
+    request_url = bases_url + urllib.urlencode(query_dictionary)#, headers = header_dictionary)
+    request = urllib2.Request(request_url)
+    response = urllib2.urlopen(request).read()
+    dictionary = json.loads(response)
+    return dictionary
