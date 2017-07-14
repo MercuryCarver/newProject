@@ -20,7 +20,8 @@ def callyoutube(query):
     'part':"snippet",
     "maxResults":1,
     'videoSyndicated': "true",
-    'type':"video"}
+    'type':"video",
+    'videoEmbeddable':"true"}
     request_url = bases_url + urllib.urlencode(query_dictionary)#, headers = header_dictionary)
     logging.info(request_url)
 
